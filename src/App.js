@@ -23,7 +23,8 @@ export default class App extends Component {
       cube: {
         id: `${ Math.floor(Math.random() * (99999 - 1) + 1) }-${ Math.floor(new Date().getTime() / 1000) }`,
         videos: [],
-      }
+      },
+      openRecorder: false,
     }
   }
 
@@ -107,7 +108,8 @@ export default class App extends Component {
                   <hr/>
                   Or
                   <hr/>
-                  <a className="button">Record Video</a>
+                  <button className="button" onClick={ this._openRecorder.bind(this) }>Record Video</button>
+                  <div id="z-recorder" className={ this.state.openRecorder ? '' : 'hide' }></div>
                 </div>
                 <div className="modal-footer">
                   <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
@@ -117,8 +119,6 @@ export default class App extends Component {
             </div>
           </div>
         </div>
-
-        <div id="z-recorder"></div>
 
         <div>
           <input id='cubeId' type='text' />
@@ -157,5 +157,9 @@ export default class App extends Component {
         autostart: false
       });
     });
+  }
+
+  _openRecorder() {
+    console.log('OPEN RECORDER!');
   }
 }

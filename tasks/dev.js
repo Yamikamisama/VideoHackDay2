@@ -26,7 +26,8 @@ module.exports = function(gulp) {
 
   gulp.task('default', function() {
     runSeq(
-      ['sass']
+      ['sass'],
+      'watch'
     );
   });
 }
