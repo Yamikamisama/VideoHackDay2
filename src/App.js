@@ -67,6 +67,7 @@ export default class App extends Component {
   render() {
     return (
       <div id="container">
+      <span id="title">{`<DreamBox/>`}</span>
         <div className="wrap" id="container">
           <div className="cube" id="container2">
             <div className="front" id="front">
