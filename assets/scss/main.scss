@@ -32,29 +32,10 @@ html,body{
 	width: 16px;
 	height: 16px;
 }
-.random-btn-c {
-  text-align: center;
-}
 
 .random-btn-label {
   margin-bottom: 0;
   color: white;
-}
-
-.random-btn {
-  background-color: rebeccapurple;
-  border: none;
-  width: auto;
-  height: auto;
-  padding: 10px;
-  &:hover {
-    background-color: rgb(8, 202, 224);
-    border: none;
-  }
-  img {
-    width: 60px;
-    height: auto;
-  }
 }
 
 .button-c{

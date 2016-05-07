@@ -32,8 +32,8 @@ export default class App extends Component {
     if (window) {
       this.ziggeo = window.ZiggeoApi;
       this.ziggeo.token = "48e5020c4d4bf27250018a92e8d95f0a";
-    	const cube = window.location.href.split('?')[1]
-    	this._getCube(cube)
+    	const cubeId = window.location.href.split('?')[1];
+    	this._getCube(cubeId);
     }
   }
 
@@ -50,14 +50,16 @@ export default class App extends Component {
       if ( this.state.cube.videos.length === 6 ) {
         this.fbRef.push( this.state.cube );
       }
-      // reset recorder
-      this.zRecorder.reset();
       // set recorded to JWPlayer
       jwplayer(`player${this.state.counter}`).setup({
         file: newVideo.url,
         autostart: false
       });
       this.setState({counter: this.state.counter += 1});
+      // close modal
+      $('.modal').modal('toggle');
+      // reset recorder
+      this.zRecorder.reset();
     });
   }
 
@@ -101,7 +103,7 @@ export default class App extends Component {
 	              <div className="modal-content">
 	                <div className="modal-header text-center">
 	                  <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-	                  <h4 className="modal-title" id="myModalLabel">Modal title</h4>
+	                  <h4 className="modal-title" id="myModalLabel">Your DreamBox</h4>
 	                </div>
 	                <div className="modal-body text-center">
 	                  <h4>Use any URL to add content to the cube!</h4>
@@ -116,17 +118,13 @@ export default class App extends Component {
 	                  <button className="button" onClick={ this._openRecorder.bind(this) }>Record Video</button>
 	                  <div id="z-recorder" className={ this.state.openRecorder ? '' : 'hide' }></div>
 	                </div>
-	                <div className="modal-footer">
-	                  <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
-	                  <button type="button" className="btn btn-primary">Save changes</button>
-	                </div>
 	              </div>
 	            </div>
 	          </div>
 	        </div>
 
 
-	      {/* Button 2 */}
+	      	{/* Button 2 */}
 	        <div>
 	          {/* Button trigger modal */}
 	          <button type="button" onClick={this._addShareLink.bind(this)}className="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal2">
@@ -151,7 +149,7 @@ export default class App extends Component {
 	          </div>
 	        </div>
 
-	      {/* Button 3 */}
+	      	{/* Button 3 */}
 	        <div className='random-btn-c'>
 	          <button className="btn btn-primary btn-lg" onClick={ this._getRandomCube.bind(this) }>Random Cube!
 	          </button>
@@ -197,12 +195,14 @@ export default class App extends Component {
   }
 
   _getCube(targetId) {
-    this.fbRef.on("value", (snapshot) => {
-      const targetCube = _.find(snapshot.val(), (cubes, key) => cubes.id === targetId );
+    if ( targetId ) {
+      this.fbRef.on("value", (snapshot) => {
+        const targetCube = _.find(snapshot.val(), (cubes, key) => cubes.id === targetId );
 
-      this._populateCube(targetCube);
-    });
-    this.setState({counter: 7});
+        this._populateCube(targetCube);
+        this.setState({counter: 7});
+      });
+    }
   }
 
   _populateCube(cube) {
