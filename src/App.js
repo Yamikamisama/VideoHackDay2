@@ -36,6 +36,7 @@ export default class App extends Component {
     // });
     const embedding = this.ziggeo.Embed.get("test");
     console.log(embedding);
+    window._embedly_id=0
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -53,7 +54,6 @@ export default class App extends Component {
             <div className="front" id="front">
               <div id="player1" />
               <a className="embedly-card" href="https://www.youtube.com/watch?v=RrLAaDCPc3I">Card</a>
-						<script async src="//cdn.embedly.com/widgets/platform.js" charset="UTF-8"></script>
             </div>
             <div className="back">
               <div id="player2" />
@@ -74,6 +74,40 @@ export default class App extends Component {
         </div>
         <a className="embedly-button" href="http://embed.ly/code">Embed</a>
 
+
+        <div>
+          {/* Button trigger modal */}
+          <button type="button" className="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+            Add Media
+          </button>
+          {/* Modal */}
+          <div className="modal fade" id="myModal" tabIndex={-1} role="dialog" aria-labelledby="myModalLabel">
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                  <h4 className="modal-title" id="myModalLabel">Modal title</h4>
+                </div>
+                <div className="modal-body">
+                  <h1>Use any URL to add content to the cube!</h1>
+                  <input id="embedly-input" type="text" placeholder="Enter a URL" />
+                  <div>
+                    <button type="button" className="btn btn-default" onClick={ this._getEmbedly.bind(this) }>SaveToCube</button>
+                  </div>
+                  <hr/>
+                  Or
+                  <hr/>
+                  <a className="button">Record Video</a>
+                </div>
+                <div className="modal-footer">
+                  <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
+                  <button type="button" className="btn btn-primary">Save changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div className="recorder">
            <ziggeo
             ziggeo-id='test'
@@ -92,6 +126,13 @@ export default class App extends Component {
         </div>
       </div>
     );
+  }
+
+  _getEmbedly(e) {
+  	const $embedlyInput = $('#embedly-input')
+  	$('.back').append(`<a id="embedly${_embedly_id}"href="${$embedlyInput.val()}"></a>`)
+  	var a = document.getElementById(`##{_embedly_id}`);
+  	embedly('card', 'a');
   }
 
   _storeVid() {
