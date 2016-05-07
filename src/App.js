@@ -17,7 +17,7 @@ export default class App extends Component {
     super(props);
 
     this.state = {
-      videos: {}
+      videos: []
     }
   }
 
@@ -30,18 +30,21 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    // this.ziggeo.Events.on("submitted", (data) => {
-    //   console.log(data);
-    //   // this.setState({ videos: { video1: data.video.token } });
-    // });
-    const embedding = this.ziggeo.Embed.get("test");
-    console.log(embedding);
-  }
+    const zRecorder = this.ziggeo.Embed.embed('#z-recorder', { id: 'zRecorder', limit: 15, width: 320, height: 240, countdown: 0 });
 
-  componentWillUpdate(nextProps, nextState) {
-    // if (nextState.currentVideo !== this.state.currentVideo) {
-    //   this.ziggeo.Embed.embed("#player", { video: nextState.currentVideo });
-    // }
+    this.ziggeo.Events.on("submitted", (data) => {
+      const newVideo = { zToken: data.video.token, url: '' };
+      let videos = this.state.videos;
+      videos.push(newVideo);
+      // store in state
+      this.setState({ videos });
+      if ( this.state.videos.length === 6 ) {
+        this.fbRef.set( { cube: this.state } );
+      }
+      // reset recorder
+      zRecorder.reset();
+      // TODO: send recorded to JWPlayer;
+    });
   }
 
   render() {
@@ -53,7 +56,7 @@ export default class App extends Component {
             <div className="front" id="front">
               <div id="player1" />
               <a className="embedly-card" href="https://www.youtube.com/watch?v=RrLAaDCPc3I">Card</a>
-						<script async src="//cdn.embedly.com/widgets/platform.js" charset="UTF-8"></script>
+						  <script async src="//cdn.embedly.com/widgets/platform.js" charSet="UTF-8"></script>
             </div>
             <div className="back">
               <div id="player2" />
@@ -74,18 +77,7 @@ export default class App extends Component {
         </div>
         <a className="embedly-button" href="http://embed.ly/code">Embed</a>
 
-        <div className="recorder">
-           <ziggeo
-            ziggeo-id='test'
-            ziggeo-limit='15'
-            ziggeo-width='320'
-            ziggeo-height='240'>
-          </ziggeo>
-        </div>
-
-        <div>
-          <button onClick={ this._storeVid.bind(this) }>SaveToCube</button>
-        </div>
+        <div id="z-recorder"></div>
 
         <div>
           <button onClick={ this._getVideo.bind(this) }>GetVideos</button>
@@ -94,14 +86,9 @@ export default class App extends Component {
     );
   }
 
-  _storeVid() {
-    console.log(this.state.videos)
-    // this.fbRef.child("location/city").on("value", (snapshot) => {
-    //   console.log(snapshot.val());
-    // });
-  }
-
   _getVideo() {
-    const videoUrl = this.ziggeo.Videos.source('9d07913c261ed38a36abf9b251913f7a');
+    this.fbRef.child('cube').on("value", (snapshot) => {
+      console.log(snapshot.val());
+    });
   }
 }
