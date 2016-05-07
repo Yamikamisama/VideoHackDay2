@@ -1,9 +1,6 @@
 @import './cube';
 @import './recorder';
 
-h1 {
-  color: red;
-}
 body{
 	z-index: 9999;
 	background: url(/assets/images/space-background.jpg) no-repeat center center fixed;
@@ -29,4 +26,31 @@ body{
 	color: black;
 	background-color: white;
 	border: solid white .1em;
+}
+
+.random-btn-c {
+  text-align: center;
+}
+
+.random-btn-label {
+  margin-bottom: 0;
+  color: white;
+  font-family: cursive;
+  font-size: 20px;
+}
+
+.random-btn {
+  background-color: rebeccapurple;
+  border: none;
+  width: auto;
+  height: auto;
+  padding: 10px;
+  &:hover {
+    background-color: rgb(8, 202, 224);
+    border: none;
+  }
+  img {
+    width: 60px;
+    height: auto;
+  }
 }

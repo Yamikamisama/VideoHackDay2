@@ -33,7 +33,6 @@ export default class App extends Component {
     if (window) {
       this.ziggeo = window.ZiggeoApi;
       this.ziggeo.token = "48e5020c4d4bf27250018a92e8d95f0a";
-    	debugger
     	const cube = window.location.href.split('?')[1]
     	this._getCube(cube)
     }
@@ -121,8 +120,11 @@ export default class App extends Component {
           </div>
         </div>
 
-        <div>
-          <button className="btn btn-default" onClick={ this._getRandomCube.bind(this) }>Get Random Cube!</button>
+        <div className='random-btn-c'>
+          <p className='random-btn-label'>Random Cube!</p>
+          <button className="btn btn-default random-btn" onClick={ this._getRandomCube.bind(this) }>
+            <img src="/assets/images/dice.png" alt=""/>
+          </button>
         </div>
       </div>
     );
