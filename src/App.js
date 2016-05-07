@@ -44,8 +44,7 @@ export default class App extends Component {
       videos.push(newVideo);
       // store in state
       this.setState({ videos });
-      if ( this.state.cube.videos.length === 1 ) {
-        let cube = {}
+      if ( this.state.cube.videos.length === 6 ) {
         this.fbRef.push( this.state.cube );
       }
       // reset recorder
@@ -60,7 +59,7 @@ export default class App extends Component {
 
   render() {
     return (
-      <div>
+      <div id="container">
         <div className="wrap" id="container">
           <div className="cube" id="container2">
             <div className="front" id="front">
@@ -83,8 +82,6 @@ export default class App extends Component {
             </div>
           </div>
         </div>
-        <a className="embedly-button" href="http://embed.ly/code">Embed</a>
-
         <div>
           {/* Button trigger modal */}
           <button type="button" className="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
@@ -135,7 +132,15 @@ export default class App extends Component {
 	  	const a = $(`#embedly${this.state.counter}`);
 	  	embedly('card', 'a');
 	  	this.setState({counter: this.state.counter += 1});
-  	}
+  		const newVideo = { zToken: null, url: $embedlyInput.val() };
+  		let videos = this.state.cube.videos;
+  		videos.push(newVideo);
+  		// store in state
+  		this.setState({ videos });
+  		if ( this.state.cube.videos.length === 6 ) {
+  		  this.fbRef.push( this.state.cube );
+	  	}
+	  }
   }
 
   _getVideo() {
