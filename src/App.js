@@ -89,7 +89,7 @@ export default class App extends Component {
         <div>
           {/* Button trigger modal */}
           <button type="button" className="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-            Add Media
+            <img src="/assets/images/plus.png" alt="plus-btn"/>
           </button>
           {/* Modal */}
           <div className="modal fade" id="myModal" tabIndex={-1} role="dialog" aria-labelledby="myModalLabel">
