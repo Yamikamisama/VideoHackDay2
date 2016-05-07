@@ -10,6 +10,7 @@ import Firebase from 'firebase';
     zip: 94103
   }
   vid: 9d07913c261ed38a36abf9b251913f7a
+  url: http://embed.ziggeo.com/v1/applications/48e5020c4d4bf27250018a92e8d95f0a/videos/9d07913c261ed38a36abf9b251913f7a/video.mp4
 }*/
 
 export default class App extends Component {
@@ -17,7 +18,8 @@ export default class App extends Component {
     super(props);
 
     this.state = {
-      videos: {}
+      videos: [],
+      cube: null,
     }
   }
 
@@ -27,22 +29,31 @@ export default class App extends Component {
       this.ziggeo = window.ZiggeoApi;
       this.ziggeo.token = "48e5020c4d4bf27250018a92e8d95f0a";
     }
+    this.fbRef.child('cube').on('value', snapshot => this.setState({ cube: snapshot.val() }) );
   }
 
   componentDidMount() {
-    // this.ziggeo.Events.on("submitted", (data) => {
-    //   console.log(data);
-    //   // this.setState({ videos: { video1: data.video.token } });
-    // });
-    const embedding = this.ziggeo.Embed.get("test");
-    console.log(embedding);
     window._embedly_id=0
-  }
+    this.counter = 1;
+    const zRecorder = this.ziggeo.Embed.embed('#z-recorder', { id: 'zRecorder', limit: 15, width: 320, height: 240, countdown: 0 });
 
-  componentWillUpdate(nextProps, nextState) {
-    // if (nextState.currentVideo !== this.state.currentVideo) {
-    //   this.ziggeo.Embed.embed("#player", { video: nextState.currentVideo });
-    // }
+    this.ziggeo.Events.on("submitted", (data) => {
+      const newVideo = { zToken: data.video.token, url: `//${data.video.embed_video_url}.mp4` };
+      let videos = this.state.videos;
+      videos.push(newVideo);
+      // store in state
+      this.setState({ videos });
+      if ( this.state.videos.length === 6 ) {
+        this.fbRef.set( { cube: this.state } );
+      }
+      // reset recorder
+      zRecorder.reset();
+      // set recorded to JWPlayer
+      jwplayer(`player${this.counter}`).setup({
+        file: newVideo.url
+      });
+      this.counter++;
+    });
   }
 
   render() {
@@ -73,7 +84,6 @@ export default class App extends Component {
           </div>
         </div>
         <a className="embedly-button" href="http://embed.ly/code">Embed</a>
-
 
         <div>
           {/* Button trigger modal */}
@@ -108,21 +118,14 @@ export default class App extends Component {
           </div>
         </div>
 
-        <div className="recorder">
-           <ziggeo
-            ziggeo-id='test'
-            ziggeo-limit='15'
-            ziggeo-width='320'
-            ziggeo-height='240'>
-          </ziggeo>
-        </div>
-
-        <div>
-          <button onClick={ this._storeVid.bind(this) }>SaveToCube</button>
-        </div>
+        <div id="z-recorder"></div>
 
         <div>
           <button onClick={ this._getVideo.bind(this) }>GetVideos</button>
+        </div>
+
+        <div className="cube-data">
+         { `${JSON.stringify(this.state.cube)}` }
         </div>
       </div>
     );
@@ -143,6 +146,8 @@ export default class App extends Component {
   }
 
   _getVideo() {
-    const videoUrl = this.ziggeo.Videos.source('9d07913c261ed38a36abf9b251913f7a');
+    this.fbRef.child('cube').on("value", (snapshot) => {
+      console.log(snapshot.val());
+    });
   }
 }
