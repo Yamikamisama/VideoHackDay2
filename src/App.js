@@ -20,6 +20,7 @@ export default class App extends Component {
     this.state = {
       videos: [],
       cube: null,
+      counter: 1
     }
   }
 
@@ -33,8 +34,6 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    window._embedly_id=0
-    this.counter = 1;
     const zRecorder = this.ziggeo.Embed.embed('#z-recorder', { id: 'zRecorder', limit: 15, width: 320, height: 240, countdown: 0 });
 
     this.ziggeo.Events.on("submitted", (data) => {
@@ -52,7 +51,7 @@ export default class App extends Component {
       jwplayer(`player${this.counter}`).setup({
         file: newVideo.url
       });
-      this.counter++;
+      this.setState({counter: this.state.counter += 1});
     });
   }
 
@@ -64,7 +63,6 @@ export default class App extends Component {
           <div className="cube" id="container2">
             <div className="front" id="front">
               <div id="player1" />
-              <a className="embedly-card" href="https://www.youtube.com/watch?v=RrLAaDCPc3I">Card</a>
             </div>
             <div className="back">
               <div id="player2" />
@@ -131,11 +129,13 @@ export default class App extends Component {
     );
   }
 
-  _getEmbedly(e) {
+  _getEmbedly() {
   	const $embedlyInput = $('#embedly-input')
-  	$('.back').append(`<a id="embedly${_embedly_id}"href="${$embedlyInput.val()}"></a>`)
-  	var a = document.getElementById(`##{_embedly_id}`);
+  	$(`#player${this.state.counter}`).append(`<a id="embedly${this.state.counter}"href="${$embedlyInput.val()}"></a>`)
+  	const a = $(`#embedly${this.state.counter}`);
   	embedly('card', 'a');
+  	this.setState({counter: this.state.counter += 1});
+  	debugger
   }
 
   _storeVid() {
