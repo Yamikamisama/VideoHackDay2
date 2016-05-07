@@ -2,7 +2,6 @@
 @import './recorder';
 
 html,body{
-	z-index: 9999;
 	background: url(/assets/images/space-background.jpg) no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -37,7 +36,9 @@ html,body{
   margin-bottom: 0;
   color: white;
 }
-
+.modal-backdrop.in {
+    z-index: -1;
+}
 .button-c{
 	position: fixed;
  	right: 5%;

@@ -49,6 +49,7 @@ export default class App extends Component {
       this.setState({ videos });
       if ( this.state.cube.videos.length === 6 ) {
         this.fbRef.push( this.state.cube );
+        history.pushState({}, "", this.state.cube.id)
       }
       // set recorded to JWPlayer
       jwplayer(`player${this.state.counter}`).setup({
@@ -57,7 +58,7 @@ export default class App extends Component {
       });
       this.setState({counter: this.state.counter += 1});
       // close modal
-      $('.modal').modal('toggle');
+      $('#myModal').modal('toggle');
       // reset recorder
       this.zRecorder.reset();
     });
@@ -109,7 +110,7 @@ export default class App extends Component {
 	                  <h4>Use any URL to add content to the cube!</h4>
 	                  <input id="embedly-input" type="text" placeholder="Enter a URL" />
 	                  <div>
-	                    <button type="button" className="btn btn-default" onClick={ this._getEmbedly.bind(this) }>SaveToCube</button>
+	                    <button className="button" onClick={ this._getEmbedly.bind(this) }>Add To DreamBox</button>
 	                  </div>
 	                  <hr/>
 	                  Or
@@ -181,7 +182,7 @@ export default class App extends Component {
   		  this.fbRef.push( this.state.cube );
 	  	}
 	  }
-	  $('.modal').modal('toggle');
+	  $('#myModal').modal('toggle');
   }
 
   _getVideo() {
