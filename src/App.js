@@ -182,6 +182,7 @@ export default class App extends Component {
   		this.setState({ videos });
   		if ( this.state.cube.videos.length === 6 ) {
   		  this.fbRef.push( this.state.cube );
+        history.pushState(null, null, `?${this.state.cube.id}`);
 	  	}
 	  }
 	  $('#myModal').modal('toggle');
