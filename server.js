@@ -5,6 +5,7 @@ var twilio = require('twilio');
 const path = require('path');
 const express = require('express');
 const app = express();
+require('dotenv').config();
 
 const indexPath = path.join(__dirname, '/index.html');
 const publicPath = express.static(path.join(__dirname, '../static'));
@@ -15,8 +16,6 @@ app.use('/public', publicPath);
 app.get('/', function (req, res) {
   res.sendFile(indexPath);
 });
-
-require('dotenv').config();
 
 const client = new twilio.RestClient('ACccfad5c5365b389034ce961ec2c3c33b', process.env.TwilioAPIKEY);
 // client.sendSms({
@@ -33,19 +32,8 @@ const client = new twilio.RestClient('ACccfad5c5365b389034ce961ec2c3c33b', proce
 //         console.log('Oops! There was an error.');
 //     }
 // });
+
 if (process.env.NODE_ENV !== 'production') {
-  // const webpack = require('webpack')
-  // const webpackDevMiddleware = require('webpack-dev-middleware')
-  // const webpackHotMiddleware = require('webpack-hot-middleware')
-  // const config = require('../webpack.dev.config.js')
-  // const compiler = webpack(config)
-
-  // app.use(webpackHotMiddleware(compiler))
-  // app.use(webpackDevMiddleware(compiler, {
-  //   noInfo: true,
-  //   publicPath: config.output.publicPath
-  // }))
-
   new WebpackDevServer(webpack(config), {
     publicPath: config.output.publicPath,
     hot: true,
@@ -60,14 +48,3 @@ if (process.env.NODE_ENV !== 'production') {
   app.listen(port);
   console.log(`Listening at http://localhost:${port}`);
 }
-
-// new WebpackDevServer(webpack(config), {
-//   publicPath: config.output.publicPath,
-//   hot: true,
-//   historyApiFallback: true
-// }).listen(3000, 'localhost', function (err, result) {
-//   if (err) {
-//     return console.log(err);
-//   }
-//   console.log('Listening at http://localhost:3000/');
-// });
