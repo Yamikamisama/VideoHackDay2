@@ -45,14 +45,14 @@ export default class App extends Component {
       // store in state
       this.setState({ videos });
       if ( this.state.cube.videos.length === 1 ) {
-        let cube = {}
         this.fbRef.push( this.state.cube );
       }
       // reset recorder
       zRecorder.reset();
       // set recorded to JWPlayer
-      jwplayer(`player${this.counter}`).setup({
-        file: newVideo.url
+      jwplayer(`player${this.state.counter}`).setup({
+        file: newVideo.url,
+        autostart: false
       });
       this.setState({counter: this.state.counter += 1});
     });
@@ -153,7 +153,8 @@ export default class App extends Component {
 
     _.each(videos, (v, i) => {
       jwplayer(`player${i+1}`).setup({
-        file: v.url
+        file: v.url,
+        autostart: false
       });
     });
   }
