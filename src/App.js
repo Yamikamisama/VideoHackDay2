@@ -124,6 +124,10 @@ export default class App extends Component {
           <input id='cubeId' type='text' />
           <button onClick={ this._getVideo.bind(this) }>Get Cube!</button>
         </div>
+
+        <div>
+          <button className="btn btn-default" onClick={ this._getRandomCube.bind(this) }>Get Random Cube!</button>
+        </div>
       </div>
     );
   }
@@ -161,5 +165,24 @@ export default class App extends Component {
 
   _openRecorder() {
     this.setState({openRecorder: true});
+  }
+
+  _getRandomCube() {
+    this.fbRef.on("value", (snapshot) => {
+      const randomCube = this._randomPick(snapshot.val());
+      console.log(`random cube: ${randomCube.id}`);
+      this._populateCube(randomCube);
+    });
+  }
+
+  _randomPick(obj) {
+    let result;
+    let count = 0;
+    _.each(Object.keys(obj), (key, i) => {
+      if (Math.random() < 1/++count) {
+        result = obj[key];
+      }
+    });
+    return result;
   }
 }
