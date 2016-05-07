@@ -18,18 +18,19 @@ export default class App extends Component {
     super(props);
 
     this.state = {
-      videos: [],
-      cube: null,
+      cube: {
+        id: `${ Math.floor(Math.random() * (99999 - 1) + 1) }-${ Math.floor(new Date().getTime() / 1000) }`,
+        videos: [],
+      }
     }
   }
 
   componentWillMount() {
-    this.fbRef = new Firebase("https://glowing-heat-3729.firebaseio.com/");
+    this.fbRef = new Firebase("https://glowing-heat-3729.firebaseio.com/cubes");
     if (window) {
       this.ziggeo = window.ZiggeoApi;
       this.ziggeo.token = "48e5020c4d4bf27250018a92e8d95f0a";
     }
-    this.fbRef.child('cube').on('value', snapshot => this.setState({ cube: snapshot.val() }) );
   }
 
   componentDidMount() {
@@ -39,12 +40,13 @@ export default class App extends Component {
 
     this.ziggeo.Events.on("submitted", (data) => {
       const newVideo = { zToken: data.video.token, url: `//${data.video.embed_video_url}.mp4` };
-      let videos = this.state.videos;
+      let videos = this.state.cube.videos;
       videos.push(newVideo);
       // store in state
       this.setState({ videos });
-      if ( this.state.videos.length === 6 ) {
-        this.fbRef.set( { cube: this.state } );
+      if ( this.state.cube.videos.length === 1 ) {
+        let cube = {}
+        this.fbRef.push( this.state.cube );
       }
       // reset recorder
       zRecorder.reset();
@@ -121,11 +123,8 @@ export default class App extends Component {
         <div id="z-recorder"></div>
 
         <div>
+          <input id='cubeId' type='text' />
           <button onClick={ this._getVideo.bind(this) }>GetVideos</button>
-        </div>
-
-        <div className="cube-data">
-         { `${JSON.stringify(this.state.cube)}` }
         </div>
       </div>
     );
@@ -146,8 +145,10 @@ export default class App extends Component {
   }
 
   _getVideo() {
-    this.fbRef.child('cube').on("value", (snapshot) => {
-      console.log(snapshot.val());
+    this.fbRef.on("value", (snapshot) => {
+      $.each(snapshot.val(), (key, cube) => {
+        console.log(key, cube);
+      });
     });
   }
 }
