@@ -130,12 +130,14 @@ export default class App extends Component {
   }
 
   _getEmbedly() {
+  	if(this.state.counter < 7){
   	const $embedlyInput = $('#embedly-input')
   	$(`#player${this.state.counter}`).append(`<a id="embedly${this.state.counter}"href="${$embedlyInput.val()}"></a>`)
   	const a = $(`#embedly${this.state.counter}`);
   	embedly('card', 'a');
   	this.setState({counter: this.state.counter += 1});
   	debugger
+  	}
   }
 
   _storeVid() {
