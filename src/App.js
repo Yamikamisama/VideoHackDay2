@@ -37,7 +37,7 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    const zRecorder = this.ziggeo.Embed.embed('#z-recorder', { id: 'zRecorder', limit: 15, width: 320, height: 240, countdown: 0 });
+    this.zRecorder = this.ziggeo.Embed.embed('#z-recorder', { limit: 15, width: 320, height: 240, countdown: 0 });
 
     this.ziggeo.Events.on("submitted", (data) => {
       const newVideo = { zToken: data.video.token, url: `//${data.video.embed_video_url}.mp4` };
@@ -131,10 +131,10 @@ export default class App extends Component {
   _getEmbedly() {
   	if(this.state.counter < 7){
 	  	const $embedlyInput = $('#embedly-input')
-	  	$(`#player${this.state.counter}`).append(`<a id="embedly${this.state.counter}"href="${$embedlyInput.val()}"></a>`)
+	  	$(`#player${ this.state.counter }`).append(`<a id="embedly${this.state.counter}"href="${$embedlyInput.val()}"></a>`)
 	  	const a = $(`#embedly${this.state.counter}`);
 	  	embedly('card', 'a');
-	  	this.setState({counter: this.state.counter += 1});
+	  	this.setState({ counter: this.state.counter += 1 });
   	}
   }
 
@@ -160,6 +160,6 @@ export default class App extends Component {
   }
 
   _openRecorder() {
-    console.log('OPEN RECORDER!');
+    this.setState({openRecorder: true});
   }
 }
