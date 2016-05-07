@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Firebase from 'firebase';
+import _ from 'lodash';
 
 /*{
   title: "Hello World!",
@@ -18,19 +19,20 @@ export default class App extends Component {
     super(props);
 
     this.state = {
-      videos: [],
-      cube: null,
-      counter: 1
+      counter: 1,
+      cube: {
+        id: `${ Math.floor(Math.random() * (99999 - 1) + 1) }-${ Math.floor(new Date().getTime() / 1000) }`,
+        videos: [],
+      }
     }
   }
 
   componentWillMount() {
-    this.fbRef = new Firebase("https://glowing-heat-3729.firebaseio.com/");
+    this.fbRef = new Firebase("https://glowing-heat-3729.firebaseio.com/cubes");
     if (window) {
       this.ziggeo = window.ZiggeoApi;
       this.ziggeo.token = "48e5020c4d4bf27250018a92e8d95f0a";
     }
-    this.fbRef.child('cube').on('value', snapshot => this.setState({ cube: snapshot.val() }) );
   }
 
   componentDidMount() {
@@ -38,12 +40,13 @@ export default class App extends Component {
 
     this.ziggeo.Events.on("submitted", (data) => {
       const newVideo = { zToken: data.video.token, url: `//${data.video.embed_video_url}.mp4` };
-      let videos = this.state.videos;
+      let videos = this.state.cube.videos;
       videos.push(newVideo);
       // store in state
       this.setState({ videos });
-      if ( this.state.videos.length === 6 ) {
-        this.fbRef.set( { cube: this.state } );
+      if ( this.state.cube.videos.length === 1 ) {
+        let cube = {}
+        this.fbRef.push( this.state.cube );
       }
       // reset recorder
       zRecorder.reset();
@@ -118,11 +121,8 @@ export default class App extends Component {
         <div id="z-recorder"></div>
 
         <div>
-          <button onClick={ this._getVideo.bind(this) }>GetVideos</button>
-        </div>
-
-        <div className="cube-data">
-         { `${JSON.stringify(this.state.cube)}` }
+          <input id='cubeId' type='text' />
+          <button onClick={ this._getVideo.bind(this) }>Get Cube!</button>
         </div>
       </div>
     );
@@ -130,25 +130,31 @@ export default class App extends Component {
 
   _getEmbedly() {
   	if(this.state.counter < 7){
-  	const $embedlyInput = $('#embedly-input')
-  	$(`#player${this.state.counter}`).append(`<a id="embedly${this.state.counter}"href="${$embedlyInput.val()}"></a>`)
-  	const a = $(`#embedly${this.state.counter}`);
-  	embedly('card', 'a');
-  	this.setState({counter: this.state.counter += 1});
-  	debugger
+	  	const $embedlyInput = $('#embedly-input')
+	  	$(`#player${this.state.counter}`).append(`<a id="embedly${this.state.counter}"href="${$embedlyInput.val()}"></a>`)
+	  	const a = $(`#embedly${this.state.counter}`);
+	  	embedly('card', 'a');
+	  	this.setState({counter: this.state.counter += 1});
   	}
   }
 
-  _storeVid() {
-    console.log(this.state.videos)
-    // this.fbRef.child("location/city").on("value", (snapshot) => {
-    //   console.log(snapshot.val());
-    // });
+  _getVideo() {
+    const targetId = $('#cubeId').val();
+
+    this.fbRef.on("value", (snapshot) => {
+      const targetCube = _.find(snapshot.val(), (cubes, key) => cubes.id === targetId );
+
+      this._populateCube(targetCube);
+    });
   }
 
-  _getVideo() {
-    this.fbRef.child('cube').on("value", (snapshot) => {
-      console.log(snapshot.val());
+  _populateCube(cube) {
+    const { videos }= cube;
+
+    _.each(videos, (v, i) => {
+      jwplayer(`player${i+1}`).setup({
+        file: v.url
+      });
     });
   }
 }
