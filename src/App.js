@@ -42,18 +42,19 @@ export default class App extends Component {
     this.zRecorder = this.ziggeo.Embed.embed('#z-recorder', { limit: 15, width: 320, height: 240, countdown: 0 });
 
     this.ziggeo.Events.on("submitted", (data) => {
-      const newVideo = { zToken: data.video.token, url: `//${data.video.embed_video_url}.mp4` };
+      const newVideo = { zToken: data.video.token, url: `//${data.video.embed_video_url}.mp4`, thumbnail: `//${data.video.embed_image_url}` };
       let videos = this.state.cube.videos;
       videos.push(newVideo);
       // store in state
       this.setState({ videos });
       if ( this.state.cube.videos.length === 6 ) {
         this.fbRef.push( this.state.cube );
-        history.pushState({}, "", this.state.cube.id)
+        history.pushState(null, null, `?${this.state.cube.id}`);
       }
       // set recorded to JWPlayer
       jwplayer(`player${this.state.counter}`).setup({
         file: newVideo.url,
+        image: newVideo.thumbnail,
         autostart: false
       });
       this.setState({counter: this.state.counter += 1});
@@ -212,6 +213,7 @@ export default class App extends Component {
     _.each(videos, (v, i) => {
       jwplayer(`player${i+1}`).setup({
         file: v.url,
+        image: v.thumbnail,
         autostart: false
       });
     });
@@ -224,8 +226,9 @@ export default class App extends Component {
   _getRandomCube() {
     this.fbRef.on("value", (snapshot) => {
       const randomCube = this._randomPick(snapshot.val());
-      console.log(`random cube: ${randomCube.id}`);
+
       this._populateCube(randomCube);
+      history.pushState(null, null, `?${randomCube.id}`);
     });
   }
 
