@@ -58,7 +58,6 @@ export default class App extends Component {
   render() {
     return (
       <div>
-        <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
         <div className="wrap" id="container">
           <div className="cube" id="container2">
             <div className="front" id="front">
