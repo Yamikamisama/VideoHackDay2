@@ -4,10 +4,6 @@ export default class App extends Component {
   render() {
     return (
       <div>
-      	<script src="//content.jwplatform.com/libraries/DbXZPMBQ.js"></script>
-      	<script src="//cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
-      	<script src="assets/js/modernizr.js"></script>
-      	<script src="assets/js/cube.js"></script>
         <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
         <div className="wrap" id="container">
           <div className="cube" id="container2">
