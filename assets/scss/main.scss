@@ -1,15 +1,14 @@
 @import './cube';
+@import './recorder';
 
-h1 {
-  color: red;
-}
-body{
+html,body{
 	z-index: 9999;
 	background: url(/assets/images/space-background.jpg) no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+  overflow: hidden;
 }
 .btn-primary{
 	margin-left: .5em;
@@ -21,13 +20,45 @@ body{
 	color: white;
 	height: 7.5%;
 	transition: background-color .5s;
+	border-radius: 0;
+	width: 180px;
 }
 .btn-primary:hover, .btn-primary:active, .btn-primary:focus{
 	color: black;
 	background-color: white;
 	border: solid white .1em;
 }
-#copy-img{
+.icon-size{
 	width: 16px;
 	height: 16px;
+}
+.random-btn-c {
+  text-align: center;
+}
+
+.random-btn-label {
+  margin-bottom: 0;
+  color: white;
+}
+
+.random-btn {
+  background-color: rebeccapurple;
+  border: none;
+  width: auto;
+  height: auto;
+  padding: 10px;
+  &:hover {
+    background-color: rgb(8, 202, 224);
+    border: none;
+  }
+  img {
+    width: 60px;
+    height: auto;
+  }
+}
+
+.button-c{
+	position: fixed;
+ 	right: 5%;
+  top: 40%;
 }

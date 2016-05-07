@@ -39,7 +39,7 @@ export default class App extends Component {
 
   componentDidMount() {
   	new Clipboard('.btn');
-    const zRecorder = this.ziggeo.Embed.embed('#z-recorder', { id: 'zRecorder', limit: 15, width: 320, height: 240, countdown: 0 });
+    this.zRecorder = this.ziggeo.Embed.embed('#z-recorder', { limit: 15, width: 320, height: 240, countdown: 0 });
 
     this.ziggeo.Events.on("submitted", (data) => {
       const newVideo = { zToken: data.video.token, url: `//${data.video.embed_video_url}.mp4` };
@@ -51,7 +51,7 @@ export default class App extends Component {
         this.fbRef.push( this.state.cube );
       }
       // reset recorder
-      zRecorder.reset();
+      this.zRecorder.reset();
       // set recorded to JWPlayer
       jwplayer(`player${this.state.counter}`).setup({
         file: newVideo.url,
@@ -87,63 +87,76 @@ export default class App extends Component {
           </div>
         </div>
 
-        <div>
-          {/* Button trigger modal */}
-          <button type="button" className="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-            Add Media
-          </button>
-          {/* Modal */}
-          <div className="modal fade" id="myModal" tabIndex={-1} role="dialog" aria-labelledby="myModalLabel">
-            <div className="modal-dialog" role="document">
-              <div className="modal-content">
-                <div className="modal-header text-center">
-                  <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                  <h4 className="modal-title" id="myModalLabel">Modal title</h4>
-                </div>
-                <div className="modal-body text-center">
-                  <h4>Use any URL to add content to the cube!</h4>
-                  <input id="embedly-input" type="text" placeholder="Enter a URL" />
-                  <div>
-                    <button type="button" className="btn btn-default" onClick={ this._getEmbedly.bind(this) }>SaveToCube</button>
-                  </div>
-                  <hr/>
-                  Or
-                  <hr/>
-                  <h4>Record a video Live!</h4>
-                  <button className="button" onClick={ this._openRecorder.bind(this) }>Record Video</button>
-                  <div id="z-recorder" className={ this.state.openRecorder ? '' : 'hide' }></div>
-                </div>
-                <div className="modal-footer">
-                  <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
-                  <button type="button" className="btn btn-primary">Save changes</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div className="button-c">
 
-        <div>
-          {/* Button trigger modal */}
-          <button type="button" onClick={this._addShareLink.bind(this)}className="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal2">
-            Share DreamBox
-          </button>
-          {/* Modal */}
-          <div className="modal fade" id="myModal2" tabIndex={-1} role="dialog" aria-labelledby="myModalLabel">
-            <div className="modal-dialog" role="document">
-              <div className="modal-content">
-                <div className="modal-header text-center">
-									<h4 className="modal-title" id="myModalLabel">Share the DreamBox</h4>
-                </div>
-                <div className="modal-body text-center">
-                	<input id="foo" value="https://github.com/zenorocha/clipboard.js.git"/>
+        	{/* Button 1 */}
+	        <div>
+	          {/* Button trigger modal */}
+	          <button type="button" className="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+	            Add Media/Video
+	          </button>
+	          {/* Modal */}
+	          <div className="modal fade" id="myModal" tabIndex={-1} role="dialog" aria-labelledby="myModalLabel">
+	            <div className="modal-dialog" role="document">
+	              <div className="modal-content">
+	                <div className="modal-header text-center">
+	                  <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+	                  <h4 className="modal-title" id="myModalLabel">Modal title</h4>
+	                </div>
+	                <div className="modal-body text-center">
+	                  <h4>Use any URL to add content to the cube!</h4>
+	                  <input id="embedly-input" type="text" placeholder="Enter a URL" />
+	                  <div>
+	                    <button type="button" className="btn btn-default" onClick={ this._getEmbedly.bind(this) }>SaveToCube</button>
+	                  </div>
+	                  <hr/>
+	                  Or
+	                  <hr/>
+	                  <h4>Record a video Live!</h4>
+	                  <button className="button" onClick={ this._openRecorder.bind(this) }>Record Video</button>
+	                  <div id="z-recorder" className={ this.state.openRecorder ? '' : 'hide' }></div>
+	                </div>
+	                <div className="modal-footer">
+	                  <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
+	                  <button type="button" className="btn btn-primary">Save changes</button>
+	                </div>
+	              </div>
+	            </div>
+	          </div>
+	        </div>
 
-                	<button className="btn" data-clipboard-target="#foo">
-                	    <img id="copy-img" src="https://cdn0.iconfinder.com/data/icons/thin-text-editing/24/thin-0254_copy-128.png" alt="Copy to clipboard"/>
-                	</button>
-                </div>
-              </div>
-            </div>
-          </div>
+
+	      {/* Button 2 */}
+	        <div>
+	          {/* Button trigger modal */}
+	          <button type="button" onClick={this._addShareLink.bind(this)}className="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal2">
+	            Share DreamBox
+	          </button>
+	          {/* Modal */}
+	          <div className="modal fade" id="myModal2" tabIndex={-1} role="dialog" aria-labelledby="myModalLabel">
+	            <div className="modal-dialog" role="document">
+	              <div className="modal-content">
+	                <div className="modal-header text-center">
+										<h4 className="modal-title" id="myModalLabel">Share the DreamBox</h4>
+	                </div>
+	                <div className="modal-body text-center">
+	                	<input id="foo" value="https://github.com/zenorocha/clipboard.js.git"/>
+
+	                	<button className="btn" data-clipboard-target="#foo">
+	                	    <img className="icon-size" src="https://cdn0.iconfinder.com/data/icons/thin-text-editing/24/thin-0254_copy-128.png" alt="Copy to clipboard"/>
+	                	</button>
+	                </div>
+	              </div>
+	            </div>
+	          </div>
+	        </div>
+
+	      {/* Button 3 */}
+	        <div className='random-btn-c'>
+	          <button className="btn btn-primary btn-lg" onClick={ this._getRandomCube.bind(this) }>Random Cube!
+	          </button>
+	        </div>
+
         </div>
 
       </div>
@@ -155,9 +168,9 @@ export default class App extends Component {
   }
 
   _getEmbedly() {
-  	if(this.state.counter < 7){
+  	if(this.state.counter < 7) {
 	  	const $embedlyInput = $('#embedly-input')
-	  	$(`#player${this.state.counter}`).append(`<a id="embedly${this.state.counter}"href="${$embedlyInput.val()}"></a>`)
+	  	$(`#player${ this.state.counter }`).append(`<a id="embedly${this.state.counter}"href="${$embedlyInput.val()}"></a>`)
 	  	const a = $(`#embedly${this.state.counter}`);
 	  	embedly('card', 'a');
 	  	this.setState({counter: this.state.counter += 1});
@@ -204,6 +217,25 @@ export default class App extends Component {
   }
 
   _openRecorder() {
-    console.log('OPEN RECORDER!');
+    this.setState({openRecorder: true});
+  }
+
+  _getRandomCube() {
+    this.fbRef.on("value", (snapshot) => {
+      const randomCube = this._randomPick(snapshot.val());
+      console.log(`random cube: ${randomCube.id}`);
+      this._populateCube(randomCube);
+    });
+  }
+
+  _randomPick(obj) {
+    let result;
+    let count = 0;
+    _.each(Object.keys(obj), (key, i) => {
+      if (Math.random() < 1/++count) {
+        result = obj[key];
+      }
+    });
+    return result;
   }
 }
