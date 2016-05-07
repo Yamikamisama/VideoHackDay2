@@ -45,6 +45,7 @@
   },
   "dependencies": {
     "autoprefixer": "^6.3.6",
+    "clipboard": "^1.5.10",
     "dotenv": "^2.0.0",
     "gulp": "^3.9.1",
     "gulp-clean-css": "^2.0.7",

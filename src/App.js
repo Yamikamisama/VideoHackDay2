@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Firebase from 'firebase';
 import _ from 'lodash';
-
 /*{
   title: "Hello World!",
   author: "Firebase",
@@ -33,13 +32,13 @@ export default class App extends Component {
     if (window) {
       this.ziggeo = window.ZiggeoApi;
       this.ziggeo.token = "48e5020c4d4bf27250018a92e8d95f0a";
-    	debugger
     	const cube = window.location.href.split('?')[1]
     	this._getCube(cube)
     }
   }
 
   componentDidMount() {
+  	new Clipboard('.btn');
     const zRecorder = this.ziggeo.Embed.embed('#z-recorder', { id: 'zRecorder', limit: 15, width: 320, height: 240, countdown: 0 });
 
     this.ziggeo.Events.on("submitted", (data) => {
@@ -87,6 +86,7 @@ export default class App extends Component {
             </div>
           </div>
         </div>
+
         <div>
           {/* Button trigger modal */}
           <button type="button" className="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
@@ -96,12 +96,12 @@ export default class App extends Component {
           <div className="modal fade" id="myModal" tabIndex={-1} role="dialog" aria-labelledby="myModalLabel">
             <div className="modal-dialog" role="document">
               <div className="modal-content">
-                <div className="modal-header">
+                <div className="modal-header text-center">
                   <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                   <h4 className="modal-title" id="myModalLabel">Modal title</h4>
                 </div>
-                <div className="modal-body">
-                  <h1>Use any URL to add content to the cube!</h1>
+                <div className="modal-body text-center">
+                  <h4>Use any URL to add content to the cube!</h4>
                   <input id="embedly-input" type="text" placeholder="Enter a URL" />
                   <div>
                     <button type="button" className="btn btn-default" onClick={ this._getEmbedly.bind(this) }>SaveToCube</button>
@@ -109,6 +109,7 @@ export default class App extends Component {
                   <hr/>
                   Or
                   <hr/>
+                  <h4>Record a video Live!</h4>
                   <button className="button" onClick={ this._openRecorder.bind(this) }>Record Video</button>
                   <div id="z-recorder" className={ this.state.openRecorder ? '' : 'hide' }></div>
                 </div>
@@ -120,8 +121,37 @@ export default class App extends Component {
             </div>
           </div>
         </div>
+
+        <div>
+          {/* Button trigger modal */}
+          <button type="button" onClick={this._addShareLink.bind(this)}className="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal2">
+            Share DreamBox
+          </button>
+          {/* Modal */}
+          <div className="modal fade" id="myModal2" tabIndex={-1} role="dialog" aria-labelledby="myModalLabel">
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                <div className="modal-header text-center">
+									<h4 className="modal-title" id="myModalLabel">Share the DreamBox</h4>
+                </div>
+                <div className="modal-body text-center">
+                	<input id="foo" value="https://github.com/zenorocha/clipboard.js.git"/>
+
+                	<button className="btn" data-clipboard-target="#foo">
+                	    <img id="copy-img" src="https://cdn0.iconfinder.com/data/icons/thin-text-editing/24/thin-0254_copy-128.png" alt="Copy to clipboard"/>
+                	</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     );
+  }
+
+  _addShareLink(){
+  	$('#foo').val(window.location.href);
   }
 
   _getEmbedly() {

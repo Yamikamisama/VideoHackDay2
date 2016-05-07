@@ -11,7 +11,6 @@ body{
   -o-background-size: cover;
   background-size: cover;
 }
-
 .btn-primary{
 	margin-left: .5em;
 	text-decoration: none;
@@ -23,9 +22,12 @@ body{
 	height: 7.5%;
 	transition: background-color .5s;
 }
-
 .btn-primary:hover, .btn-primary:active, .btn-primary:focus{
 	color: black;
 	background-color: white;
 	border: solid white .1em;
+}
+#copy-img{
+	width: 16px;
+	height: 16px;
 }
