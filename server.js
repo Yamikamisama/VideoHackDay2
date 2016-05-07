@@ -2,8 +2,9 @@ var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var config = require('./webpack.config');
 var twilio = require('twilio');
+require('dotenv').config();
 
-const client = new twilio.RestClient('ACccfad5c5365b389034ce961ec2c3c33b', 'c52950e89cef0c89b10a409543d525ee');
+const client = new twilio.RestClient('ACccfad5c5365b389034ce961ec2c3c33b', process.env.TwilioAPIKEY);
 client.sendSms({
     to:'+18565626606',
     from:'+17573245262',
