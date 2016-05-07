@@ -50,14 +50,16 @@ export default class App extends Component {
       if ( this.state.cube.videos.length === 6 ) {
         this.fbRef.push( this.state.cube );
       }
-      // reset recorder
-      this.zRecorder.reset();
       // set recorded to JWPlayer
       jwplayer(`player${this.state.counter}`).setup({
         file: newVideo.url,
         autostart: false
       });
-      // this.setState({counter: this.state.counter += 1});
+      this.setState({counter: this.state.counter += 1});
+      // close modal
+      $('.modal').modal('toggle');
+      // reset recorder
+      this.zRecorder.reset();
     });
   }
 
