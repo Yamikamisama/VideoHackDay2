@@ -158,13 +158,6 @@ export default class App extends Component {
 	          </button>
 	        </div>
 
-        {/* Button 4 */}
-          <div className='random-btn-c'>
-            <button className="btn btn-primary btn-lg" onClick={ this._subscribeToBox.bind(this) }>
-              Subscribe to get your daily cube!
-            </button>
-          </div>
-
         </div>
 
       </div>
@@ -249,13 +242,5 @@ export default class App extends Component {
       }
     });
     return result;
-  }
-
-  _subscribeToBox() {
-    // this.fbRef = new Firebase("https://glowing-heat-3729.firebaseio.com/phones");
-    // this.fbRef.push('6467448192');
-    $.post( '/hi', function( data ) {
-      console.log(data);
-    });
   }
 }
