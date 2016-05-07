@@ -88,7 +88,7 @@ export default class App extends Component {
         </div>
         <div>
           {/* Button trigger modal */}
-          <button type="button" className="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+          <button type="button" className="btn btn-primary btn-lg plus-btn" data-toggle="modal" data-target="#myModal">
             <img src="/assets/images/plus.png" alt="plus-btn"/>
           </button>
           {/* Modal */}

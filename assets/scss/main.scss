@@ -28,6 +28,17 @@ body{
 	border: solid white .1em;
 }
 
+.plus-btn {
+  background-color: beige;
+  border: none;
+  padding: 10px;
+
+  img {
+    width: 60px;
+    height: auto;
+  }
+}
+
 .random-btn-c {
   text-align: center;
 }
