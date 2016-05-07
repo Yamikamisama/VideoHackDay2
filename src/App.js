@@ -33,8 +33,8 @@ export default class App extends Component {
     if (window) {
       this.ziggeo = window.ZiggeoApi;
       this.ziggeo.token = "48e5020c4d4bf27250018a92e8d95f0a";
-    	const cube = window.location.href.split('?')[1]
-    	this._getCube(cube)
+    	const cubeId = window.location.href.split('?')[1];
+    	this._getCube(cubeId);
     }
   }
 
@@ -51,13 +51,13 @@ export default class App extends Component {
         this.fbRef.push( this.state.cube );
       }
       // reset recorder
-      zRecorder.reset();
+      this.zRecorder.reset();
       // set recorded to JWPlayer
       jwplayer(`player${this.state.counter}`).setup({
         file: newVideo.url,
         autostart: false
       });
-      this.setState({counter: this.state.counter += 1});
+      // this.setState({counter: this.state.counter += 1});
     });
   }
 
@@ -160,12 +160,14 @@ export default class App extends Component {
   }
 
   _getCube(targetId) {
-    this.fbRef.on("value", (snapshot) => {
-      const targetCube = _.find(snapshot.val(), (cubes, key) => cubes.id === targetId );
+    if ( targetId ) {
+      this.fbRef.on("value", (snapshot) => {
+        const targetCube = _.find(snapshot.val(), (cubes, key) => cubes.id === targetId );
 
-      this._populateCube(targetCube);
-    });
-    this.setState({counter: 7});
+        this._populateCube(targetCube);
+        this.setState({counter: 7});
+      });
+    }
   }
 
   _populateCube(cube) {
