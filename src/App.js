@@ -40,7 +40,7 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    const zRecorder = this.ziggeo.Embed.embed('#z-recorder', { id: 'zRecorder', limit: 15, width: 320, height: 240, countdown: 0 });
+    this.zRecorder = this.ziggeo.Embed.embed('#z-recorder', { limit: 15, width: 320, height: 240, countdown: 0 });
 
     this.ziggeo.Events.on("submitted", (data) => {
       const newVideo = { zToken: data.video.token, url: `//${data.video.embed_video_url}.mp4` };
@@ -120,14 +120,18 @@ export default class App extends Component {
             </div>
           </div>
         </div>
+
+        <div>
+          <button className="btn btn-default" onClick={ this._getRandomCube.bind(this) }>Get Random Cube!</button>
+        </div>
       </div>
     );
   }
 
   _getEmbedly() {
-  	if(this.state.counter < 7){
+  	if(this.state.counter < 7) {
 	  	const $embedlyInput = $('#embedly-input')
-	  	$(`#player${this.state.counter}`).append(`<a id="embedly${this.state.counter}"href="${$embedlyInput.val()}"></a>`)
+	  	$(`#player${ this.state.counter }`).append(`<a id="embedly${this.state.counter}"href="${$embedlyInput.val()}"></a>`)
 	  	const a = $(`#embedly${this.state.counter}`);
 	  	embedly('card', 'a');
 	  	this.setState({counter: this.state.counter += 1});
@@ -174,6 +178,25 @@ export default class App extends Component {
   }
 
   _openRecorder() {
-    console.log('OPEN RECORDER!');
+    this.setState({openRecorder: true});
+  }
+
+  _getRandomCube() {
+    this.fbRef.on("value", (snapshot) => {
+      const randomCube = this._randomPick(snapshot.val());
+      console.log(`random cube: ${randomCube.id}`);
+      this._populateCube(randomCube);
+    });
+  }
+
+  _randomPick(obj) {
+    let result;
+    let count = 0;
+    _.each(Object.keys(obj), (key, i) => {
+      if (Math.random() < 1/++count) {
+        result = obj[key];
+      }
+    });
+    return result;
   }
 }
