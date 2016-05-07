@@ -10,6 +10,7 @@ import Firebase from 'firebase';
     zip: 94103
   }
   vid: 9d07913c261ed38a36abf9b251913f7a
+  url: http://embed.ziggeo.com/v1/applications/48e5020c4d4bf27250018a92e8d95f0a/videos/9d07913c261ed38a36abf9b251913f7a/video.mp4
 }*/
 
 export default class App extends Component {
@@ -17,7 +18,8 @@ export default class App extends Component {
     super(props);
 
     this.state = {
-      videos: []
+      videos: [],
+      cube: null,
     }
   }
 
@@ -27,13 +29,15 @@ export default class App extends Component {
       this.ziggeo = window.ZiggeoApi;
       this.ziggeo.token = "48e5020c4d4bf27250018a92e8d95f0a";
     }
+    this.fbRef.child('cube').on('value', snapshot => this.setState({ cube: snapshot.val() }) );
   }
 
   componentDidMount() {
+    this.counter = 1;
     const zRecorder = this.ziggeo.Embed.embed('#z-recorder', { id: 'zRecorder', limit: 15, width: 320, height: 240, countdown: 0 });
 
     this.ziggeo.Events.on("submitted", (data) => {
-      const newVideo = { zToken: data.video.token, url: '' };
+      const newVideo = { zToken: data.video.token, url: `//${data.video.embed_video_url}.mp4` };
       let videos = this.state.videos;
       videos.push(newVideo);
       // store in state
@@ -43,7 +47,11 @@ export default class App extends Component {
       }
       // reset recorder
       zRecorder.reset();
-      // TODO: send recorded to JWPlayer;
+      // set recorded to JWPlayer
+      jwplayer(`player${this.counter}`).setup({
+        file: newVideo.url
+      });
+      this.counter++;
     });
   }
 
@@ -81,6 +89,10 @@ export default class App extends Component {
 
         <div>
           <button onClick={ this._getVideo.bind(this) }>GetVideos</button>
+        </div>
+
+        <div className="cube-data">
+         { `${JSON.stringify(this.state.cube)}` }
         </div>
       </div>
     );
