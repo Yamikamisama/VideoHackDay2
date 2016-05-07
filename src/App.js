@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Firebase from 'firebase';
+import _ from 'lodash';
 
 /*{
   title: "Hello World!",
@@ -61,7 +62,6 @@ export default class App extends Component {
   render() {
     return (
       <div>
-        <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
         <div className="wrap" id="container">
           <div className="cube" id="container2">
             <div className="front" id="front">
@@ -124,7 +124,7 @@ export default class App extends Component {
 
         <div>
           <input id='cubeId' type='text' />
-          <button onClick={ this._getVideo.bind(this) }>GetVideos</button>
+          <button onClick={ this._getVideo.bind(this) }>Get Cube!</button>
         </div>
       </div>
     );
@@ -137,17 +137,22 @@ export default class App extends Component {
   	embedly('card', 'a');
   }
 
-  _storeVid() {
-    console.log(this.state.videos)
-    // this.fbRef.child("location/city").on("value", (snapshot) => {
-    //   console.log(snapshot.val());
-    // });
+  _getVideo() {
+    const targetId = $('#cubeId').val();
+
+    this.fbRef.on("value", (snapshot) => {
+      const targetCube = _.find(snapshot.val(), (cubes, key) => cubes.id === targetId );
+
+      this._populateCube(targetCube);
+    });
   }
 
-  _getVideo() {
-    this.fbRef.on("value", (snapshot) => {
-      $.each(snapshot.val(), (key, cube) => {
-        console.log(key, cube);
+  _populateCube(cube) {
+    const { videos }= cube;
+
+    _.each(videos, (v, i) => {
+      jwplayer(`player${i+1}`).setup({
+        file: v.url
       });
     });
   }
