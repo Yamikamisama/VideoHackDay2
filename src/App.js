@@ -33,6 +33,9 @@ export default class App extends Component {
     if (window) {
       this.ziggeo = window.ZiggeoApi;
       this.ziggeo.token = "48e5020c4d4bf27250018a92e8d95f0a";
+    	debugger
+    	const cube = window.location.href.split('?')[1]
+    	this._getCube(cube)
     }
   }
 
@@ -117,11 +120,6 @@ export default class App extends Component {
             </div>
           </div>
         </div>
-
-        <div>
-          <input id='cubeId' type='text' />
-          <button onClick={ this._getVideo.bind(this) }>Get Cube!</button>
-        </div>
       </div>
     );
   }
@@ -142,6 +140,7 @@ export default class App extends Component {
   		  this.fbRef.push( this.state.cube );
 	  	}
 	  }
+	  $('.modal').modal('toggle');
   }
 
   _getVideo() {
@@ -152,6 +151,15 @@ export default class App extends Component {
 
       this._populateCube(targetCube);
     });
+  }
+
+  _getCube(targetId) {
+    this.fbRef.on("value", (snapshot) => {
+      const targetCube = _.find(snapshot.val(), (cubes, key) => cubes.id === targetId );
+
+      this._populateCube(targetCube);
+    });
+    this.setState({counter: 7});
   }
 
   _populateCube(cube) {
