@@ -1,6 +1,23 @@
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var config = require('./webpack.config');
+var twilio = require('twilio');
+
+const client = new twilio.RestClient('ACccfad5c5365b389034ce961ec2c3c33b', 'c52950e89cef0c89b10a409543d525ee');
+client.sendSms({
+    to:'+18565626606',
+    from:'+17573245262',
+    body:'ahoy hoy! Testing Twilio and node.js'
+}, function(error, message) {
+    if (!error) {
+        console.log('Success! The SID for this SMS message is:');
+        console.log(message.sid);
+        console.log('Message sent on:');
+        console.log(message.dateCreated);
+    } else {
+        console.log('Oops! There was an error.');
+    }
+});
 
 new WebpackDevServer(webpack(config), {
   publicPath: config.output.publicPath,
@@ -10,6 +27,5 @@ new WebpackDevServer(webpack(config), {
   if (err) {
     return console.log(err);
   }
-
   console.log('Listening at http://localhost:3000/');
 });
