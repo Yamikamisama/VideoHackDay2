@@ -1,6 +1,50 @@
 import React, { Component } from 'react';
+import Firebase from 'firebase';
+import Immutable from 'immutable';
+
+/*{
+  title: "Hello World!",
+  author: "Firebase",
+  location: {
+    city: "San Francisco",
+    state: "California",
+    zip: 94103
+  }
+  vid: 9d07913c261ed38a36abf9b251913f7a
+}*/
 
 export default class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      videos: {}
+    }
+  }
+
+  componentWillMount() {
+    this.fbRef = new Firebase("https://glowing-heat-3729.firebaseio.com/");
+    if (window) {
+      this.ziggeo = window.ZiggeoApi;
+      this.ziggeo.token = "48e5020c4d4bf27250018a92e8d95f0a";
+    }
+  }
+
+  componentDidMount() {
+    // this.ziggeo.Events.on("submitted", (data) => {
+    //   console.log(data);
+    //   // this.setState({ videos: { video1: data.video.token } });
+    // });
+    const embedding = this.ziggeo.Embed.get("test");
+    console.log(embedding);
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    // if (nextState.currentVideo !== this.state.currentVideo) {
+    //   this.ziggeo.Embed.embed("#player", { video: nextState.currentVideo });
+    // }
+  }
+
   render() {
     return (
       <div>
@@ -27,7 +71,35 @@ export default class App extends Component {
             </div>
           </div>
         </div>
+
+        <div className="recorder">
+           <ziggeo
+            ziggeo-id='test'
+            ziggeo-limit='15'
+            ziggeo-width='320'
+            ziggeo-height='240'>
+          </ziggeo>
+        </div>
+
+        <div>
+          <button onClick={ this._storeVid.bind(this) }>SaveToCube</button>
+        </div>
+
+        <div>
+          <button onClick={ this._getVideo.bind(this) }>GetVideos</button>
+        </div>
       </div>
     );
+  }
+
+  _storeVid() {
+    console.log(this.state.videos)
+    // this.fbRef.child("location/city").on("value", (snapshot) => {
+    //   console.log(snapshot.val());
+    // });
+  }
+
+  _getVideo() {
+    const videoUrl = this.ziggeo.Videos.source('9d07913c261ed38a36abf9b251913f7a');
   }
 }
