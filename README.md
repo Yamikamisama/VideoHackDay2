@@ -1,52 +1,30 @@
->## A Big Update Is Coming
 
->React Hot Loader 3 is [on the horizon](https://github.com/gaearon/react-hot-loader/pull/240), and you can try it today ([boilerplate branch](https://github.com/gaearon/react-hot-boilerplate/pull/61), [upgrade example](https://github.com/gaearon/redux-devtools/commit/64f58b7010a1b2a71ad16716eb37ac1031f93915)). It fixes some [long-standing issues](https://twitter.com/dan_abramov/status/722040946075045888) with both React Hot Loader and React Transform, and is intended as a replacement for both. The docs are not there yet, but they will be added before the final release. For now, [this commit](https://github.com/gaearon/redux-devtools/commit/64f58b7010a1b2a71ad16716eb37ac1031f93915) is a good reference.
+![](//challengepost-s3-challengepost.netdna-ssl.com/photos/production/software_thumbnail_photos/000/383/838/datas/medium.png)
+# DreamBox
 
+DreamBox Allows you to create an interactive Dream in a box, Add media to the cube and share it with your friends!
 
-React Hot Boilerplate
-=====================
+#### What the app does
+- DreamBox allows you to pull media from the web, simply use a URL and add it to your Box
+- DreamBox can also record live videos using the Ziggeo API, simply click the record button and away you go :)
+- Once your DreamBox is full you can share it with all your friends! click the share button, grab the URL and Paste away!!!!
+- If you don't wanna work that hard, random DreamBox button for a random cube!
 
-The minimal dev environment to enable live-editing React components.
+#### Technologies and tools used
+- Stack: NERD (NODE, EXPRESS, REACT, DATABASE(FIREBASE))
+- FireBase: We are using the Firebase API to store, load, and share DreamBoxes across the Web.
+- Embedly: The Embedly API allows us to quicly add many different types of media to our DreamBox.
+- Ziggeo: The Ziggeo API connects to your computers camera so that you can add your own video to the DreamBox.
+- JWPlayer: The JwPlayer is what Controls most of the Media, creating the Player that houses all of the different types of Media.
 
-### Usage
+##Team Members
 
-```
-npm install
-npm start
-open http://localhost:3000
-```
+####Michael Angelo
+* GitHub: https://github.com/Yamikamisama
+* LinkedIn: http://www.linkedin.com/pub/michael-angelo/9a/a93/1b0/
+* Email: yamikamisama@gmail.com
 
-Now edit `src/App.js`.  
-Your changes will appear without reloading the browser like in [this video](http://vimeo.com/100010922).
-
-### Linting
-
-This boilerplate project includes React-friendly ESLint configuration.
-
-```
-npm run lint
-```
-
-### Using `0.0.0.0` as Host
-
-You may want to change the host in `server.js` and `webpack.config.js` from `localhost` to `0.0.0.0` to allow access from same WiFi network. This is not enabled by default because it is reported to cause problems on Windows. This may also be useful if you're using a VM.
-
-### Missing Features
-
-This boilerplate is purposefully simple to show the minimal configuration for React Hot Loader. For a real project, you'll want to add a separate config for production with hot reloading disabled and minification enabled. You'll also want to add a router, styles and maybe combine dev server with an existing server. This is out of scope of this boilerplate, but you may want to look into [other starter kits](https://github.com/gaearon/react-hot-loader/blob/master/docs/README.md#starter-kits).
-
-### Dependencies
-
-* React
-* Webpack
-* [webpack-dev-server](https://github.com/webpack/webpack-dev-server)
-* [babel-loader](https://github.com/babel/babel-loader)
-* [react-hot-loader](https://github.com/gaearon/react-hot-loader)
-
-### Resources
-
-* [Demo video](http://vimeo.com/100010922)
-* [react-hot-loader on Github](https://github.com/gaearon/react-hot-loader)
-* [Integrating JSX live reload into your workflow](http://gaearon.github.io/react-hot-loader/getstarted/)
-* [Troubleshooting guide](https://github.com/gaearon/react-hot-loader/blob/master/docs/Troubleshooting.md)
-* Ping dan_abramov on Twitter or #reactjs IRC
+####Xiran Ou
+* GitHub:https://github.com/xiranou
+* LinkedIn: https://www.linkedin.com/in/xiranou
+* Email: xiranou@gmail.com
